@@ -26,8 +26,7 @@
     {
       "matches": [
         "*://*.github.com/*/pull/*",
-        "*://*.github.com/*/actions",
-        "*://*.github.com/*/actions/*"
+        "*://*.github.com/*/actions*"
       ],
       "js": [
         "contentScript.js"
