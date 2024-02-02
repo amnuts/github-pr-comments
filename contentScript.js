@@ -7,15 +7,22 @@ let applyCommentIcon = (file) => {
         let comments = file.querySelectorAll('tr.inline-comments').length;
         let insertNode = file.querySelector('div.file-actions > div');
         insertNode.innerHTML = `
-            <span class="comment-count ml-1 mr-2 text-normal d-flex flex-items-center" title="Comments on this file: ${comments == 0 ? 'unknown' : comments}">
+            <span class="comment-count ml-1 mr-2 text-normal d-flex flex-items-center" title="Comments on this file: ${comments === 0 ? 'unknown' : comments}">
                 <svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M24 1h-24v16.981h4v5.019l7-5.019h13z" fill="grey"></path>
-                    <text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" fill="white">${comments == 0 ? '?' : comments}</text>
+                    <text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" fill="white">${comments === 0 ? '?' : comments}</text>
                 </svg>
             </span>
         ` + insertNode.innerHTML;
     }
 };
+
+let applyFullTime = (domNode) => {
+    domNode.setAttribute('format', 'datetime');
+    domNode.setAttribute('hour', 'numeric');
+    domNode.setAttribute('minute', 'numeric');
+    domNode.setAttribute('second', 'numeric');
+}
 
 let mutateCallback = (mutationsList, observer) => {
     for (let mutation of mutationsList) {
@@ -50,7 +57,7 @@ let mutateCallback = (mutationsList, observer) => {
     }
 };
 
-let initApply = (filesList) => {
+let initApply = (filesList, relativeTimeList) => {
     if (filesList) {
         let files = filesList.querySelectorAll('.js-diff-progressive-container:first-of-type > div.file');
         if (files) {
@@ -59,12 +66,21 @@ let initApply = (filesList) => {
             });
         }
     }
+    if (relativeTimeList) {
+        [...relativeTimeList].forEach(node => {
+            applyFullTime(node);
+        })
+    }
 };
 
-let pageContent = document.getElementsByTagName('body')[0];
-initApply(document.getElementById('files'));
+initApply(
+    document.getElementById('files'),
+    document.getElementsByTagName('relative-time')
+);
 
+let pageContent = document.getElementsByTagName('body')[0];
 let observer = new MutationObserver(mutateCallback);
+
 observer.observe(
     pageContent,
     { attributes: false, childList: true, subtree: true }
