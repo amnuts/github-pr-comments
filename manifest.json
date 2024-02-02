@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GitHub PR Comment Indicator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "When doing code reviews it's handy to see on which files you've made comments",
   "homepage_url": "https://github.com/amnuts/github-pr-comments",
   "icons": {
